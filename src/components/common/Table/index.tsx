@@ -87,7 +87,7 @@ function Table<T = any>({
             onCheckBoxChange?.([]);
         }
     };
-    const isCheckedAll = !!!tbody.find((item) => !item.checked);
+    const isCheckedAll = !!!tbody.find((item) => !item.checked) && !!tbody.length;
 
     let key = 0;
     return (
