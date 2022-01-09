@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { CSSProperties, ReactElement } from 'react';
+import { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export interface TheadType<T> {
@@ -12,23 +12,100 @@ export interface TheadType<T> {
 export interface TableProps<T> {
     thead: TheadType<T>[];
     tbody: Array<any>;
+    onCheckBoxChange?: (data: T[], rowData?: T) => void;
+    hasCheckBox?: boolean;
     className?: Record<string, string> | string;
     isLoading?: boolean;
     theadClassName?: string;
 }
 
-function Table<T = any>({ tbody, className, thead, isLoading, theadClassName }: TableProps<T>) {
+function Table<T = any>({
+    tbody: _tbody,
+    className,
+    thead,
+    onCheckBoxChange,
+    isLoading,
+    theadClassName,
+    hasCheckBox,
+}: TableProps<T>) {
     const { t } = useTranslation();
-    let key = 0;
+    const [, setforceRender] = useState(false);
+    const [tbody, setTbody] = useState(
+        hasCheckBox
+            ? _tbody.map((item) => {
+                  return {
+                      checked: false,
+                      ...item,
+                  };
+              })
+            : _tbody,
+    );
 
+    useEffect(() => {
+        setTbody(
+            hasCheckBox
+                ? _tbody.map((item) => {
+                      return {
+                          checked: false,
+                          ...item,
+                      };
+                  })
+                : _tbody,
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_tbody]);
+
+    const handleCheckBoxChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        rowData: T,
+        index: number,
+    ) => {
+        const editedBodyData = tbody;
+        if (e.target.checked) {
+            editedBodyData[index]['checked'] = true;
+            setTbody(editedBodyData);
+        } else {
+            editedBodyData[index]['checked'] = false;
+            setTbody(editedBodyData);
+        }
+        setforceRender((prev) => !prev);
+        onCheckBoxChange?.(
+            tbody.filter((data) => data.checked),
+            rowData,
+        );
+    };
+    const handleCheckedAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked) {
+            setTbody((prev) => {
+                return prev.map((item) => ({ ...item, checked: true }));
+            });
+            onCheckBoxChange?.(tbody.map((item) => ({ ...item, checked: true })));
+        } else {
+            setTbody((prev) => {
+                return prev.map((item) => ({ ...item, checked: false }));
+            });
+            onCheckBoxChange?.([]);
+        }
+    };
+    const isCheckedAll = !!!tbody.find((item) => !item.checked);
+
+    let key = 0;
     return (
         <table className={cn(className, 'relative w-full ')}>
             <thead className={theadClassName}>
-                <th className="px-0  whitespace-nowrap pt-4 pb-2  ">
-                    <div className={cn('px-2 border-b-2  border-orange')}>
-                        <input className="w-5  h-5" type="checkbox" name="checkbox" />
-                    </div>
-                </th>
+                {hasCheckBox && (
+                    <th key="checkBox" className="px-0  whitespace-nowrap pt-4 pb-2  ">
+                        <div className={cn('px-2 border-b-2  border-orange')}>
+                            <input
+                                checked={isCheckedAll}
+                                onChange={handleCheckedAllChange}
+                                className="w-5  h-5"
+                                type="checkbox"
+                                name="checkbox"
+                            />
+                        </div>
+                    </th>
+                )}
                 {thead.map((th, index) => (
                     <th className="px-0  whitespace-nowrap pt-4 pb-2  " key={index}>
                         <div
@@ -58,7 +135,7 @@ function Table<T = any>({ tbody, className, thead, isLoading, theadClassName }: 
                         </td>
                     </tr>
                 ) : (
-                    tbody.map((tb) => {
+                    tbody.map((tb, index) => {
                         key++;
                         return (
                             <tr
@@ -67,15 +144,19 @@ function Table<T = any>({ tbody, className, thead, isLoading, theadClassName }: 
                                 }}
                                 key={key}
                             >
-                                <th className="px-0  whitespace-nowrap   ">
-                                    <label className={cn('px-2 ')}>
-                                        <input
-                                            className="w-5  h-5"
-                                            type="checkbox"
-                                            name="checkbox"
-                                        />
-                                    </label>
-                                </th>
+                                {hasCheckBox && (
+                                    <th key="checkbox" className="px-0  whitespace-nowrap   ">
+                                        <label className={cn('px-2 ')}>
+                                            <input
+                                                className="w-5  h-5"
+                                                type="checkbox"
+                                                onChange={(e) => handleCheckBoxChange(e, tb, index)}
+                                                checked={tb.checked}
+                                                name="checkbox"
+                                            />
+                                        </label>
+                                    </th>
+                                )}
                                 {thead.map((th, index) => {
                                     return (
                                         <td

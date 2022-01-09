@@ -17,7 +17,7 @@ const AddTodo: FC<Props> = ({ onAdd }) => {
         e.preventDefault();
         const todoITem: TodoType = {
             title,
-            id: new Date().getTime + title,
+            id: new Date().getTime() + title,
             status: false,
         };
         if (title) {
