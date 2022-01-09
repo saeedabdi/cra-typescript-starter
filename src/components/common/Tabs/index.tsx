@@ -5,6 +5,7 @@ interface TabsProps {
     children?: ReactNode;
     tabsNames: string[];
     defaultIndex?: number;
+    onChange?: (activeIndex: number) => void;
     activeTabClassName?: string;
     tabClassName?: string;
     tabsClassName?: string;
@@ -17,6 +18,7 @@ const Tabs: FC<TabsProps> = ({
     activeTabClassName,
     defaultIndex = 0,
     tabClassName,
+    onChange,
     tabsClassName,
     childrenParentClassName,
 }) => {
@@ -26,17 +28,18 @@ const Tabs: FC<TabsProps> = ({
             <div className={cn('flex', tabsClassName)}>
                 {tabsNames.map((name, key) => {
                     return (
-                        <div key={key} className={cn('flex ')}>
-                            <div
-                                key={key}
-                                onClick={() => setOpenTab(key)}
-                                className={cn(
-                                    key === openTab ? activeTabClassName : tabClassName,
-                                    'cursor-pointer ',
-                                )}
-                            >
-                                {name}
-                            </div>
+                        <div
+                            key={key}
+                            onClick={() => {
+                                setOpenTab(key);
+                                onChange?.(key);
+                            }}
+                            className={cn(
+                                key === openTab ? activeTabClassName : tabClassName,
+                                'cursor-pointer ',
+                            )}
+                        >
+                            {name}
                         </div>
                     );
                 })}

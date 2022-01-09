@@ -1,4 +1,5 @@
-import { Table } from 'components/common';
+import { Table, Tabs } from 'components/common';
+import { TheadType } from 'components/common/Table';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,53 @@ const TodoApp = () => {
 
     const [slectedTodos, setSlectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
+    const thead: TheadType<TodoType>[] = [
+        {
+            key: 'title',
+            title: t('Title'),
+            className: 'text-center',
+        },
+        {
+            key: 'status',
+            className: 'w-full text-center',
+            title: t('Status'),
+            render: (p, data) => {
+                return <>{data?.status ? t('complete') : t('incomplete')}</>;
+            },
+        },
+        {
+            key: 'actions',
+            title: t('Actions'),
+            className: 'flex justify-center',
+            render: (p, rowData) => {
+                return (
+                    <>
+                        <button
+                            onClick={() => handleDelete(rowData as TodoType)}
+                            className="px-3 py-2 mr-2 rounded-md bg-red-600 text-white transition-all hover:ring-2 ring-red-600"
+                        >
+                            {t('Delete')}
+                        </button>
+                        {!rowData?.status ? (
+                            <button
+                                onClick={() => handleChangeStatus(true, rowData as TodoType)}
+                                className="bg-green-600 w-20 rounded-md text-white hover:ring-2 transition-all duration-200 ring-green-600 shadow-md  py-2 px-3 text-sm"
+                            >
+                                {t('Done')}
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => handleChangeStatus(false, rowData as TodoType)}
+                                className="bg-blue-600 w-20 text-white  hover:ring-2 transition-all duration-200 ring-blue-600  rounded-md shadow-md px-3 py-2 text-sm"
+                            >
+                                {t('Un done')}
+                            </button>
+                        )}
+                    </>
+                );
+            },
+        },
+    ];
 
     const handleDelete = (rowData: TodoType) => {
         if (window.confirm(t('Are you sure ?'))) {
@@ -96,62 +144,29 @@ const TodoApp = () => {
                     </div>
                 </div>
             )}
-            <Table<TodoType>
-                hasCheckBox
-                tbody={todos}
-                onCheckBoxChange={handleCheckbox}
-                thead={[
-                    {
-                        key: 'title',
-                        title: t('Title'),
-                        className: 'text-center',
-                    },
-                    {
-                        key: 'status',
-                        className: 'text-center',
-                        title: t('Status'),
-                        render: (p, data) => {
-                            return <>{data?.status ? t('complete') : t('incomplete')}</>;
-                        },
-                    },
-                    {
-                        key: 'actions',
-                        title: t('Actions'),
-                        className: 'flex justify-center',
-                        render: (p, rowData) => {
-                            return (
-                                <>
-                                    <button
-                                        onClick={() => handleDelete(rowData as TodoType)}
-                                        className="px-3 py-2 mr-2 rounded-md bg-red-600 text-white transition-all hover:ring-2 ring-red-600"
-                                    >
-                                        {t('Delete')}
-                                    </button>
-                                    {!rowData?.status ? (
-                                        <button
-                                            onClick={() =>
-                                                handleChangeStatus(true, rowData as TodoType)
-                                            }
-                                            className="bg-green-600 w-20 rounded-md text-white hover:ring-2 transition-all duration-200 ring-green-600 shadow-md  py-2 px-3 text-sm"
-                                        >
-                                            {t('Done')}
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={() =>
-                                                handleChangeStatus(false, rowData as TodoType)
-                                            }
-                                            className="bg-blue-600 w-20 text-white  hover:ring-2 transition-all duration-200 ring-blue-600  rounded-md shadow-md px-3 py-2 text-sm"
-                                        >
-                                            {t('Un done')}
-                                        </button>
-                                    )}
-                                </>
-                            );
-                        },
-                    },
-                ]}
-            />
+            <Tabs
+                tabsClassName="w-full py-2 mb-2"
+                tabClassName="p-2 text-center w-full"
+                activeTabClassName="border-b-4 text-center p-2 w-full border-red-600"
+                tabsNames={[t('All'), t('Dones'), t('Un dones')]}
+            >
+                <Table<TodoType>
+                    hasCheckBox
+                    tbody={todos}
+                    onCheckBoxChange={handleCheckbox}
+                    thead={thead}
+                />
+                <Table<TodoType>
+                    tbody={todos.filter((todo) => todo.status)}
+                    onCheckBoxChange={handleCheckbox}
+                    thead={thead}
+                />
+                <Table<TodoType>
+                    tbody={todos.filter((todo) => !todo.status)}
+                    onCheckBoxChange={handleCheckbox}
+                    thead={thead}
+                />
+            </Tabs>
         </div>
     );
 };
