@@ -2,19 +2,28 @@ import { Table } from 'components/common';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export type TodoType = { title: string; status: boolean; id: number };
+import AddTodo from './addTodo';
+
+export type TodoType = { title: string; status: boolean; id: string };
 
 const TodoApp = () => {
     const [todos, setTodos] = useState<Array<TodoType>>([
         {
             title: '1',
-            id: 1,
+            id: '1',
             status: false,
         },
     ]);
     const { t } = useTranslation();
     return (
         <div className="w-full flex flex-col lg:px-40">
+            <AddTodo
+                onAdd={(todoItem) => {
+                    setTodos((prev) => {
+                        return [...prev, todoItem];
+                    });
+                }}
+            />
             <Table<TodoType>
                 tbody={todos}
                 thead={[
