@@ -1,9 +1,9 @@
-import './App.css';
+import 'assets/styles/index.css';
 
-import React from 'react';
+import AppRoutes from 'routes';
 
 function App() {
-    return <div className="w-full min-h-screen bg-red-600">tex</div>;
+    return <AppRoutes />;
 }
 
 export default App;
