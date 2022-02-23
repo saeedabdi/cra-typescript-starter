@@ -32,6 +32,7 @@ const AddTodo: FC<Props> = ({ onAdd }) => {
 
                 <input
                     value={title}
+                    placeholder={t('Add a new task here')}
                     onChange={handleChange}
                     className="w-full rounded-md border focus:ring-2 ring-blue-600 focus:outline-none border-gray-300 p-2"
                     name="title"

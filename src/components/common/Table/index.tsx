@@ -29,7 +29,6 @@ function Table<T = any>({
     hasCheckBox,
 }: TableProps<T>) {
     const { t } = useTranslation();
-    const [, setforceRender] = useState(false);
     const [tbody, setTbody] = useState(
         hasCheckBox
             ? _tbody.map((item) => {
@@ -68,7 +67,6 @@ function Table<T = any>({
             editedBodyData[index]['checked'] = false;
             setTbody(editedBodyData);
         }
-        setforceRender((prev) => !prev);
         onCheckBoxChange?.(
             tbody.filter((data) => data.checked),
             rowData,
@@ -93,29 +91,31 @@ function Table<T = any>({
     return (
         <table className={cn(className, 'relative w-full ')}>
             <thead className={theadClassName}>
-                {hasCheckBox && (
-                    <th key="checkBox" className="px-0  whitespace-nowrap pt-4 pb-2  ">
-                        <div className={cn('px-2 border-b-2  border-orange')}>
-                            <input
-                                checked={isCheckedAll}
-                                onChange={handleCheckedAllChange}
-                                className="w-5  h-5"
-                                type="checkbox"
-                                name="checkbox"
-                            />
-                        </div>
-                    </th>
-                )}
-                {thead.map((th, index) => (
-                    <th className="px-0  whitespace-nowrap pt-4 pb-2  " key={index}>
-                        <div
-                            style={th.style}
-                            className={cn(th.className, 'px-2 border-b-2  border-orange')}
-                        >
-                            <span>{th.title}</span>
-                        </div>
-                    </th>
-                ))}
+                <tr>
+                    {hasCheckBox && (
+                        <th key="checkBox" className="px-0  whitespace-nowrap pt-4 pb-2  ">
+                            <div className={cn('px-2 border-b-2  border-orange')}>
+                                <input
+                                    checked={isCheckedAll}
+                                    onChange={handleCheckedAllChange}
+                                    className="w-5  h-5"
+                                    type="checkbox"
+                                    name="checkbox"
+                                />
+                            </div>
+                        </th>
+                    )}
+                    {thead.map((th, index) => (
+                        <td className="px-0  whitespace-nowrap pt-4 pb-2  " key={index}>
+                            <div
+                                style={th.style}
+                                className={cn(th.className, 'px-2 border-b-2  border-orange')}
+                            >
+                                <span>{th.title}</span>
+                            </div>
+                        </td>
+                    ))}
+                </tr>
             </thead>
             <tbody className="">
                 {isLoading ? (

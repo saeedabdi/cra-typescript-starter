@@ -8,13 +8,7 @@ import AddTodo from './addTodo';
 export type TodoType = { title: string; status: boolean; id: string };
 
 const TodoApp = () => {
-    const [todos, setTodos] = useState<Array<TodoType>>([
-        {
-            title: '1',
-            id: '1',
-            status: false,
-        },
-    ]);
+    const [todos, setTodos] = useState<Array<TodoType>>([]);
 
     const [slectedTodos, setSlectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
