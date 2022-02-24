@@ -1,70 +1,70 @@
 import { Table, Tabs } from 'components/common';
 import { TheadType } from 'components/common/Table';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AddTodo from './addTodo';
-
-export type TodoType = { title: string; status: boolean; id: string };
+import { TodoType } from './TodoType';
 
 const TodoApp = () => {
     const [todos, setTodos] = useState<Array<TodoType>>([]);
-
     const [slectedTodos, setSlectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
-    const thead: TheadType<TodoType>[] = [
-        {
-            key: 'title',
-            title: t('Title'),
-            className: 'text-center',
-        },
-        {
-            key: 'status',
-            className: 'w-full text-center',
-            title: t('Status'),
-            render: (p, data) => {
-                return <>{data?.status ? t('complete') : t('incomplete')}</>;
+    const thead: TheadType<TodoType>[] = useMemo(() => {
+        const handleDelete = (rowData: TodoType) => {
+            if (window.confirm(t('Are you sure ?'))) {
+                setTodos((prev) => prev.filter((item) => item.id !== rowData.id));
+            }
+        };
+        return [
+            {
+                key: 'title',
+                title: t('Title'),
+                className: 'text-center',
             },
-        },
-        {
-            key: 'actions',
-            title: t('Actions'),
-            className: 'flex justify-center',
-            render: (p, rowData) => {
-                return (
-                    <>
-                        <button
-                            onClick={() => handleDelete(rowData as TodoType)}
-                            className="px-3 py-2 mr-2 rounded-md bg-red-600 text-white transition-all hover:ring-2 ring-red-600"
-                        >
-                            {t('Delete')}
-                        </button>
-                        {!rowData?.status ? (
-                            <button
-                                onClick={() => handleChangeStatus(true, rowData as TodoType)}
-                                className="bg-green-600 w-20 rounded-md text-white hover:ring-2 transition-all duration-200 ring-green-600 shadow-md  py-2 px-3 text-sm"
-                            >
-                                {t('Done')}
-                            </button>
-                        ) : (
-                            <button
-                                onClick={() => handleChangeStatus(false, rowData as TodoType)}
-                                className="bg-blue-600 w-20 text-white  hover:ring-2 transition-all duration-200 ring-blue-600  rounded-md shadow-md px-3 py-2 text-sm"
-                            >
-                                {t('Un done')}
-                            </button>
-                        )}
-                    </>
-                );
+            {
+                key: 'status',
+                className: 'w-full text-center',
+                title: t('Status'),
+                render: (p, data) => {
+                    return <>{data?.status ? t('complete') : t('incomplete')}</>;
+                },
             },
-        },
-    ];
+            {
+                key: 'actions',
+                title: t('Actions'),
+                className: 'flex justify-center',
+                render: (p, rowData) => {
+                    return (
+                        <>
+                            <button
+                                onClick={() => handleDelete(rowData as TodoType)}
+                                className="px-3 py-2 mr-2 rounded-md bg-red-600 text-white transition-all hover:ring-2 ring-red-600"
+                            >
+                                {t('Delete')}
+                            </button>
+                            {!rowData?.status ? (
+                                <button
+                                    onClick={() => handleChangeStatus(true, rowData as TodoType)}
+                                    className="bg-green-600 w-20 rounded-md text-white hover:ring-2 transition-all duration-200 ring-green-600 shadow-md  py-2 px-3 text-sm"
+                                >
+                                    {t('Done')}
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => handleChangeStatus(false, rowData as TodoType)}
+                                    className="bg-blue-600 w-20 text-white  hover:ring-2 transition-all duration-200 ring-blue-600  rounded-md shadow-md px-3 py-2 text-sm"
+                                >
+                                    {t('Un done')}
+                                </button>
+                            )}
+                        </>
+                    );
+                },
+            },
+        ];
+    }, [t]);
 
-    const handleDelete = (rowData: TodoType) => {
-        if (window.confirm(t('Are you sure ?'))) {
-            setTodos((prev) => prev.filter((item) => item.id !== rowData.id));
-        }
-    };
     const handleMultiDelete = () => {
         if (window.confirm(t('Are you sure ?'))) {
             slectedTodos.map((item) => {
@@ -100,9 +100,14 @@ const TodoApp = () => {
             });
         }
     };
-    const handleCheckbox = (data: TodoType[], rowData?: TodoType) => {
+    const handleCheckbox = useCallback((data: TodoType[], rowData?: TodoType) => {
         setSlectedTodos(data);
-    };
+    }, []);
+
+    const allTasks = useMemo(() => todos, [todos]);
+    const inComplatedTasks = useMemo(() => allTasks.filter((todo) => !todo.status), [allTasks]);
+    const complatedTasks = useMemo(() => allTasks.filter((todo) => todo.status), [allTasks]);
+
     return (
         <div className="w-full flex flex-col lg:px-40">
             <AddTodo
@@ -146,17 +151,19 @@ const TodoApp = () => {
             >
                 <Table<TodoType>
                     hasCheckBox
-                    tbody={todos}
+                    tbody={allTasks}
                     onCheckBoxChange={handleCheckbox}
                     thead={thead}
                 />
                 <Table<TodoType>
-                    tbody={todos.filter((todo) => todo.status)}
+                    hasCheckBox
+                    tbody={complatedTasks}
                     onCheckBoxChange={handleCheckbox}
                     thead={thead}
                 />
                 <Table<TodoType>
-                    tbody={todos.filter((todo) => !todo.status)}
+                    hasCheckBox
+                    tbody={inComplatedTasks}
                     onCheckBoxChange={handleCheckbox}
                     thead={thead}
                 />

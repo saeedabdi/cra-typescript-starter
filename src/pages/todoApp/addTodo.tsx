@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { TodoType } from '.';
+import { TodoType } from './TodoType';
 
 interface Props {
     onAdd: (value: TodoType) => void;
