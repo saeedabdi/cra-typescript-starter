@@ -10,11 +10,11 @@ interface Props {
 const AddTodo: FC<Props> = ({ onAdd }) => {
     const { t } = useTranslation();
     const [title, setTitle] = useState<string>('');
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
+    const handleChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(value);
     };
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         const todoITem: TodoType = {
             title,
             id: new Date().getTime() + title,
