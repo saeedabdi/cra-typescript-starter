@@ -3,7 +3,7 @@ import React, { Children, FC, ReactNode, useState } from 'react';
 
 interface TabsProps {
     children?: ReactNode;
-    tabsNames: string[];
+    tabNames: string[];
     defaultIndex?: number;
     onChange?: (activeIndex: number) => void;
     activeTabClassName?: string;
@@ -14,19 +14,19 @@ interface TabsProps {
 
 const Tabs: FC<TabsProps> = ({
     children,
-    tabsNames = [],
+    tabNames = [],
     activeTabClassName,
     defaultIndex = 0,
     tabClassName,
     onChange,
     tabsClassName,
-    childrenParentClassName,
+    childrenParentClassName: childrenWrpClassName,
 }) => {
     const [openTab, setOpenTab] = useState<number>(defaultIndex);
     return (
         <div className=" w-full">
             <div className={cn('flex', tabsClassName)}>
-                {tabsNames.map((name, key) => {
+                {tabNames.map((name, key) => {
                     return (
                         <div
                             key={key}
@@ -45,7 +45,7 @@ const Tabs: FC<TabsProps> = ({
                 })}
             </div>
 
-            <div className={cn('w-full', childrenParentClassName)}>
+            <div className={cn('w-full', childrenWrpClassName)}>
                 {Children.map(children, (Child, key) => {
                     if (openTab === key) return <>{Child}</>;
                 })}
