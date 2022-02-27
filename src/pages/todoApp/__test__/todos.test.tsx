@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import i18n from 'i18n';
 import { BrowserRouter } from 'react-router-dom';
 
 import Todo from '..';
@@ -21,6 +22,9 @@ const addTask = (tasks: string[]) => {
     });
 };
 describe('Todo lists', () => {
+    beforeAll(() => {
+        const i = i18n;
+    });
     it('should be able to type into input', () => {
         render(<MockTodo />);
         addTask(['Go Grocery Shopping']);

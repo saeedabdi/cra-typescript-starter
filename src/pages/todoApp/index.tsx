@@ -10,7 +10,7 @@ const TodoApp = () => {
     const [todos, setTodos] = useState<Array<TodoType>>([]);
     const [slectedTodos, setSlectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
-    const thead: TheadType<TodoType>[] = useMemo(() => {
+    const columns: TheadType<TodoType>[] = useMemo(() => {
         const handleDelete = (rowData: TodoType) => {
             if (window.confirm(t('Are you sure ?'))) {
                 setTodos((prev) => prev.filter((item) => item.id !== rowData.id));
@@ -150,22 +150,22 @@ const TodoApp = () => {
                 tabsNames={[t('All'), t('Dones'), t('Un dones')]}
             >
                 <Table<TodoType>
-                    hasCheckBox
-                    tbody={allTasks}
-                    onCheckBoxChange={handleCheckbox}
-                    thead={thead}
+                    selectableRows
+                    data={allTasks}
+                    onSelectedRowsChange={handleCheckbox}
+                    columns={columns}
                 />
                 <Table<TodoType>
-                    hasCheckBox
-                    tbody={complatedTasks}
-                    onCheckBoxChange={handleCheckbox}
-                    thead={thead}
+                    selectableRows
+                    data={complatedTasks}
+                    onSelectedRowsChange={handleCheckbox}
+                    columns={columns}
                 />
                 <Table<TodoType>
-                    hasCheckBox
-                    tbody={inComplatedTasks}
-                    onCheckBoxChange={handleCheckbox}
-                    thead={thead}
+                    selectableRows
+                    data={inComplatedTasks}
+                    onSelectedRowsChange={handleCheckbox}
+                    columns={columns}
                 />
             </Tabs>
         </div>

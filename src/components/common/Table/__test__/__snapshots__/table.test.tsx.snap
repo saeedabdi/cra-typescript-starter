@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table component test should render and empty table correctly 1`] = `
+<table
+  class="relative w-full "
+>
+  <thead>
+    <tr />
+  </thead>
+  <tbody
+    class=""
+  >
+    <tr>
+      <td
+        colspan="1"
+      >
+        <div
+          class="w-full flex justify-center items-center h-64"
+        >
+          No data
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`Table component test should render the correctly when using render function 1`] = `
+<table
+  class="relative w-full "
+>
+  <thead>
+    <tr>
+      <td
+        class="px-0  whitespace-nowrap pt-4 pb-2  "
+        data-title="name"
+      >
+        <div
+          class="px-2 border-b-2  border-orange"
+        >
+          <span>
+            name
+          </span>
+        </div>
+      </td>
+    </tr>
+  </thead>
+  <tbody
+    class=""
+  >
+    <tr
+      style="height: 1px;"
+    >
+      <td
+        class="p-0 h-inherit text-primary"
+        data-title="name"
+      >
+        <div
+          class="py-1 h-full"
+        >
+          <div
+            class=""
+          >
+            name
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`data prop changes should update state if the data prop changes 1`] = `
+<table
+  class="relative w-full "
+>
+  <thead>
+    <tr>
+      <td
+        class="px-0  whitespace-nowrap pt-4 pb-2  "
+        data-title="test"
+      >
+        <div
+          class="px-2 border-b-2  border-orange"
+        >
+          <span>
+            test
+          </span>
+        </div>
+      </td>
+    </tr>
+  </thead>
+  <tbody
+    class=""
+  >
+    <tr
+      style="height: 1px;"
+    >
+      <td
+        class="p-0 h-inherit text-primary"
+        data-title="test"
+      >
+        <div
+          class="py-1 h-full"
+        >
+          <div
+            class=""
+          >
+            Someone else
+            ,
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

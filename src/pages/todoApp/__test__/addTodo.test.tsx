@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import i18n from 'i18n';
 
 import AddTodo from '../addTodo';
 
@@ -6,6 +7,9 @@ const mockedSetTodo = jest.fn();
 const MockAddTodo = () => <AddTodo onAdd={mockedSetTodo} />;
 
 describe('Add todo  components ', () => {
+    beforeAll(() => {
+        const i = i18n;
+    });
     it('should render input element', () => {
         render(<MockAddTodo />);
         const inputElement = screen.getByPlaceholderText(/Add a new task here/i);
