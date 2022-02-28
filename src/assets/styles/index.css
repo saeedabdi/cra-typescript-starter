@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --primary: #fafafa;
+    --primary-2: #ffffff;
+    --secondary: #000000;
+    --secondary-2: #111;
+    --green: #11a85f;
+    --green-dark: #006633;
+    --red: #ff0000;
+    --red-2: #b31b41;
+    --red-dark: #ba2a02;
+    --orange: #f45304;
+    --orange-dark: #d96716;
+    --red-light: #ff6161;
+    --purple: #f81ce5;
+    --blue: #0070f3;
+    --blue-dark: #006480;
+    --yellow: #fed986;
+    --yellow-dark: #b29700;
+
+    --text-primary: #1a1a1a;
+    --text-primary-2: #4d4d4d;
+    --text-secondary: white;
+
+    --accent-0: #fff;
+    --accent-1: #f7f7f7;
+    --accent-1-5: #ebebeb;
+    --accent-2: #f8f8f8;
+    --accent-3: #e6e6e6;
+    --accent-4: #cccccc;
+    --accent-5: #9f9f9f;
+    --accent-6: #808080;
+    --accent-7: #4d4d4d;
+    --accent-8: #162328;
+    --accent-9: #1a1a1a;
+    --accent-10: #000;
+
+    --font-sans: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue', 'Helvetica',
+        sans-serif;
+}
+
+[data-theme='dark'] {
+    --primary: #000000;
+    --primary-2: #000000;
+    --secondary-2: #f1f3f5;
+
+    --text-primary: white;
+    --text-primary-2: #999999;
+    --text-secondary: black;
+
+    --accent-10: #fff;
+    --accent-8: #fafafa;
+    --accent-8: #fafafa;
+    --accent-7: #eaeaea;
+    --accent-6: #999999;
+    --accent-5: #888888;
+    --accent-4: #666666;
+    --accent-3: #444444;
+    --accent-2: #333333;
+    --accent-1-5: #111111;
+    --accent-1: #111111;
+    --accent-0: #000;
+    --shadow: #0000001a;
+    --shadow-1: #0000000d;
+}

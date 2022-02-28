@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { TodoType } from './TodoType';
+import { TodoType } from '../addTodo/TodoType';
+import { ButtonWrapper, Form, InputWrapper } from './addTodoStyles';
 
 interface Props {
     onAdd: (value: TodoType) => void;
@@ -25,29 +26,24 @@ const AddTodo: FC<Props> = ({ onAdd }) => {
             setTitle('');
         }
     };
-    return (
-        <form onSubmit={handleSubmit} className="w-full flex py-4 justify-center items-end">
-            <div className="w-full flex flex-col  ">
-                <label className="capitalize pb-4 font-bold">{t('Title')}</label>
 
+    return (
+        <Form onSubmit={handleSubmit}>
+            <InputWrapper>
+                <label>{t('Title')}</label>
                 <input
                     value={title}
                     placeholder={t('Add a new task here')}
                     onChange={handleChange}
-                    className="w-full rounded-md border focus:ring-2 ring-blue-600 focus:outline-none border-gray-300 p-2"
                     name="title"
                 />
-            </div>
-            <div className=" flex b px-8">
-                <button
-                    disabled={!title}
-                    type="submit"
-                    className="bg-green-600 disabled:opacity-50 text-white rounded-md px-3 py-2 hover:ring-2 ring-green-600 "
-                >
+            </InputWrapper>
+            <ButtonWrapper>
+                <button disabled={!title} type="submit">
                     {t('Add')}
                 </button>
-            </div>
-        </form>
+            </ButtonWrapper>
+        </Form>
     );
 };
 

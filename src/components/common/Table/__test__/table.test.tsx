@@ -45,7 +45,9 @@ describe('Table component test', () => {
         const i = i18n;
     });
     it('should render and empty table correctly', () => {
-        const { container } = render(<Table columns={[]} data={[]} />);
+        const { container } = render(
+            <Table keyExtractor={(item) => String(item.id)} columns={[]} data={[]} />,
+        );
 
         expect(container.firstChild).toMatchSnapshot();
     });
@@ -60,6 +62,7 @@ describe('Table component test', () => {
         const { container } = render(
             <Table<TestData>
                 data={data}
+                keyExtractor={(item) => String(item.id)}
                 columns={[
                     { title: 'name', key: 'name', render: (params, row) => <>{row?.name}</> },
                 ]}
@@ -76,6 +79,7 @@ describe('Table::onSelectedRowsChange', () => {
         const { container } = render(
             <Table
                 data={mock.data}
+                keyExtractor={(item) => String(item.id)}
                 columns={mock.columns}
                 selectableRows
                 onSelectedRowsChange={updatedMock}
@@ -96,6 +100,7 @@ describe('Table::onSelectedRowsChange', () => {
             <Table
                 data={mock.data}
                 columns={mock.columns}
+                keyExtractor={(item) => String(item.id)}
                 selectableRows
                 onSelectedRowsChange={updatedMock}
             />,
@@ -110,10 +115,20 @@ describe('Table::onSelectedRowsChange', () => {
 describe('data prop changes', () => {
     test('should update state if the data prop changes', () => {
         const mock = dataMock();
-        const { container, rerender } = render(<Table data={mock.data} columns={mock.columns} />);
+        const { container, rerender } = render(
+            <Table
+                keyExtractor={(item) => String(item.id)}
+                data={mock.data}
+                columns={mock.columns}
+            />,
+        );
 
         rerender(
-            <Table data={[{ id: 1, some: { name: 'Someone else' } }]} columns={mock.columns} />,
+            <Table
+                keyExtractor={(item) => String(item.id)}
+                data={[{ id: 1, some: { name: 'Someone else' } }]}
+                columns={mock.columns}
+            />,
         );
 
         expect(container.firstChild).toMatchSnapshot();

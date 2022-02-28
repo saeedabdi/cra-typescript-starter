@@ -14,6 +14,7 @@ export interface TableProps<T> {
     data: Array<any>;
     onSelectedRowsChange?: (data: T[], rowData?: T) => void;
     selectableRows?: boolean;
+    keyExtractor: (item: T) => string;
     className?: Record<string, string> | string;
     isLoading?: boolean;
     theadClassName?: string;
@@ -22,6 +23,7 @@ export interface TableProps<T> {
 function Table<T = any>({
     data,
     className,
+    keyExtractor,
     columns,
     onSelectedRowsChange,
     isLoading,
@@ -63,11 +65,13 @@ function Table<T = any>({
         if (event.target.checked) {
             editedBodyData[index]['checked'] = true;
             setTbody(editedBodyData);
+
+            console.log('🚀 ~ file: index.tsx ~ line 68 ~ editedBodyData', editedBodyData);
+            console.log('🚀 ~ file: index.tsx ~ line 65 ~ tbody', tbody);
         } else {
             editedBodyData[index]['checked'] = false;
             setTbody(editedBodyData);
         }
-        delete rowData.checked;
 
         onSelectedRowsChange?.(
             tbody
@@ -100,9 +104,8 @@ function Table<T = any>({
             onSelectedRowsChange?.([]);
         }
     };
-    const isCheckedAll = !!!tbody.find((item) => !item.checked) && !!tbody.length;
+    const isCheckedAll = !tbody.find((item) => !item.checked) && tbody.length != 0;
 
-    let key = 0;
     return (
         <table className={cn(className, 'relative w-full ')}>
             <thead className={theadClassName}>
@@ -120,11 +123,11 @@ function Table<T = any>({
                             </div>
                         </th>
                     )}
-                    {columns.map((th, index) => (
+                    {columns.map((th) => (
                         <td
                             data-title={th.title}
                             className="px-0  whitespace-nowrap pt-4 pb-2  "
-                            key={index.toString()}
+                            key={th.key}
                         >
                             <div
                                 style={th.style}
@@ -145,7 +148,7 @@ function Table<T = any>({
                             </div>
                         </td>
                     </tr>
-                ) : !!!tbody.length ? (
+                ) : tbody.length === 0 ? (
                     <tr>
                         <td colSpan={columns.length + 1}>
                             <div className="w-full flex justify-center items-center h-64">
@@ -155,16 +158,16 @@ function Table<T = any>({
                     </tr>
                 ) : (
                     tbody.map((tb, index) => {
-                        key++;
+                        const key = keyExtractor(tb);
                         return (
                             <tr
                                 style={{
                                     height: 1,
                                 }}
-                                key={key.toString()}
+                                key={key}
                             >
                                 {selectableRows && (
-                                    <th key="checkbox" className="px-0  whitespace-nowrap   ">
+                                    <th className="px-0  whitespace-nowrap   ">
                                         <label className={cn('px-2 ')}>
                                             <input
                                                 className="w-5  h-5"
@@ -176,13 +179,13 @@ function Table<T = any>({
                                         </label>
                                     </th>
                                 )}
-                                {columns.map((th, index) => {
+                                {columns.map((th) => {
                                     return (
                                         <td
                                             style={{ height: '' }}
                                             className={cn('p-0 h-inherit text-primary')}
                                             data-title={th.title}
-                                            key={index}
+                                            key={th.key}
                                         >
                                             <div style={th.style} className={cn('py-1 h-full')}>
                                                 <div className={cn(th.className)}>

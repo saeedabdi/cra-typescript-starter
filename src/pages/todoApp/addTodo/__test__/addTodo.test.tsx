@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import i18n from 'i18n';
 
-import AddTodo from '../addTodo';
+import AddTodo from '..';
 
 const mockedSetTodo = jest.fn();
 const MockAddTodo = () => <AddTodo onAdd={mockedSetTodo} />;
