@@ -67,16 +67,15 @@ function Table<T = any>({
             editedBodyData[index]['checked'] = false;
             setTbody(editedBodyData);
         }
-        delete rowData.checked;
+        // delete rowData.checked;
 
         onSelectedRowsChange?.(
             tbody
-                .map((item) => ({ ...item, checked: true }))
-                .map((data) => {
-                    delete data.checked;
-                    return { ...data };
+                .filter((task) => task.checked === true)
+                ?.map((tsk) => {
+                    delete tsk.checked;
+                    return { ...tsk };
                 }),
-
             rowData,
         );
     };

@@ -101,6 +101,7 @@ const TodoApp = () => {
         }
     };
     const handleCheckbox = useCallback((data: TodoType[], rowData?: TodoType) => {
+        console.log('🚀 ~ file: index.tsx ~ line 104 ~ handleCheckbox ~ data', data);
         setSlectedTodos(data);
     }, []);
 
@@ -147,7 +148,7 @@ const TodoApp = () => {
                 tabsClassName="w-full py-2 mb-2"
                 tabClassName="p-2 text-center w-full"
                 activeTabClassName="border-b-4 text-center p-2 w-full border-red-600"
-                tabsNames={[t('All'), t('Dones'), t('Un dones')]}
+                tabNames={[t('All'), t('Dones'), t('Un dones')]}
             >
                 <Table<TodoType>
                     selectableRows
