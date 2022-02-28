@@ -67,15 +67,9 @@ function Table<T = any>({
             editedBodyData[index]['checked'] = false;
             setTbody(editedBodyData);
         }
-        // delete rowData.checked;
 
         onSelectedRowsChange?.(
-            tbody
-                .filter((task) => task.checked === true)
-                ?.map((tsk) => {
-                    delete tsk.checked;
-                    return { ...tsk };
-                }),
+            tbody.filter((task) => task.checked === true),
             rowData,
         );
     };
@@ -84,14 +78,7 @@ function Table<T = any>({
             setTbody((prev) => {
                 return prev.map((item) => ({ ...item, checked: true }));
             });
-            onSelectedRowsChange?.(
-                tbody
-                    .map((item) => ({ ...item, checked: true }))
-                    .map((data) => {
-                        delete data.checked;
-                        return { ...data };
-                    }),
-            );
+            onSelectedRowsChange?.(tbody.map((item) => ({ ...item, checked: true })));
         } else {
             setTbody((prev) => {
                 return prev.map((item) => ({ ...item, checked: false }));
@@ -144,7 +131,7 @@ function Table<T = any>({
                             </div>
                         </td>
                     </tr>
-                ) : !!!tbody.length ? (
+                ) : !tbody.length ? (
                     <tr>
                         <td colSpan={columns.length + 1}>
                             <div className="w-full flex justify-center items-center h-64">
