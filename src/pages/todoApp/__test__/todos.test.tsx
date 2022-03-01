@@ -1,9 +1,11 @@
+import { createSerializer } from '@emotion/jest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import i18n from 'i18n';
 import { BrowserRouter } from 'react-router-dom';
 
 import Todo from '..';
 
+expect.addSnapshotSerializer(createSerializer());
 window.confirm = jest.fn(() => true);
 const MockTodo = () => {
     return (
@@ -25,50 +27,50 @@ describe('Todo lists', () => {
     beforeAll(() => {
         const i = i18n;
     });
-    it('should be able to type into input', () => {
-        render(<MockTodo />);
-        addTask(['Go Grocery Shopping']);
-        // screen.debug();
-        const divElement = screen.getByText(/Go Grocery Shopping/i);
-        expect(divElement).toBeInTheDocument();
-    });
+    // it('should be able to type into input', () => {
+    //     render(<MockTodo />);
+    //     addTask(['Go Grocery Shopping']);
+    //     // screen.debug();
+    //     const divElement = screen.getByText(/Go Grocery Shopping/i);
+    //     expect(divElement).toBeInTheDocument();
+    // });
 
-    it('should render multiple items', () => {
-        render(<MockTodo />);
-        addTask(['Go Grocery Shopping', 'Go Grocery Shopping', 'Go Grocery Shopping']);
-        const divElements = screen.queryAllByText(/Go Grocery Shopping/i);
-        expect(divElements.length).toBe(3);
-    });
+    // it('should render multiple items', () => {
+    //     render(<MockTodo />);
+    //     addTask(['Go Grocery Shopping', 'Go Grocery Shopping', 'Go Grocery Shopping']);
+    //     const divElements = screen.queryAllByText(/Go Grocery Shopping/i);
+    //     expect(divElements.length).toBe(3);
+    // });
 
-    it('task should not have done button when initally rendered', () => {
-        render(<MockTodo />);
-        addTask(['Go Grocery Shopping']);
-        const buttonElement = screen.getByRole('button', {
-            name: /done/i,
-        });
-        expect(buttonElement).toBeInTheDocument();
-    });
+    // it('task should not have done button when initally rendered', () => {
+    //     render(<MockTodo />);
+    //     addTask(['Go Grocery Shopping']);
+    //     const buttonElement = screen.getByRole('button', {
+    //         name: /done/i,
+    //     });
+    //     expect(buttonElement).toBeInTheDocument();
+    // });
 
-    it('task should have undone button when task have been done', () => {
-        render(<MockTodo />);
-        addTask(['Go Grocery Shopping']);
-        const buttonElement = screen.getByRole('button', {
-            name: /done/i,
-        });
-        fireEvent.click(buttonElement);
-        const unDoneButtonElement = screen.getByRole('button', {
-            name: /un done/i,
-        });
-        expect(unDoneButtonElement).toBeInTheDocument();
-    });
-    it('task should be delete when delete button clicked ', () => {
-        render(<MockTodo />);
-        addTask(['Go Grocery Shopping']);
-        const buttonElement = screen.getByRole('button', {
-            name: /delete/i,
-        });
-        fireEvent.click(buttonElement);
+    // it('task should have undone button when task have been done', () => {
+    //     render(<MockTodo />);
+    //     addTask(['Go Grocery Shopping']);
+    //     const buttonElement = screen.getByRole('button', {
+    //         name: /done/i,
+    //     });
+    //     fireEvent.click(buttonElement);
+    //     const unDoneButtonElement = screen.getByRole('button', {
+    //         name: /un done/i,
+    //     });
+    //     expect(unDoneButtonElement).toBeInTheDocument();
+    // });
+    // it('task should be delete when delete button clicked ', () => {
+    //     render(<MockTodo />);
+    //     addTask(['Go Grocery Shopping']);
+    //     const buttonElement = screen.getByRole('button', {
+    //         name: /delete/i,
+    //     });
+    //     fireEvent.click(buttonElement);
 
-        expect(window.confirm).toBeCalled();
-    });
+    //     expect(window.confirm).toBeCalled();
+    // });
 });

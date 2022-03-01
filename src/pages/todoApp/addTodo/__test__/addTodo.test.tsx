@@ -1,3 +1,4 @@
+import { createSerializer } from '@emotion/jest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import i18n from 'i18n';
 
@@ -5,7 +6,7 @@ import AddTodo from '..';
 
 const mockedSetTodo = jest.fn();
 const MockAddTodo = () => <AddTodo onAdd={mockedSetTodo} />;
-
+expect.addSnapshotSerializer(createSerializer());
 describe('Add todo  components ', () => {
     beforeAll(() => {
         const i = i18n;

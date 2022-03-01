@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { TodoType } from '../addTodo/TodoType';
-import { ButtonWrapper, Form, InputWrapper } from './addTodoStyles';
+import { ButtonWrapper, Form, InputWrapper } from './addTodo.styles';
 
 interface Props {
     onAdd: (value: TodoType) => void;

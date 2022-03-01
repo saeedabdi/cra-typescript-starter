@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 
-const { colors } = theme;
+const colors = theme.colors || {};
 export const Form = styled.form`
     width: 100%;
     display: flex;

@@ -1,17 +1,26 @@
 import { css } from '@emotion/css';
-import styled from '@emotion/styled';
 import { Table, Tabs } from 'components/common';
 import { TheadType } from 'components/common/Table';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useAppTheme from 'styles/theme/useAppTheme';
-import { mobile } from 'utils/media';
+import { theme, toggleTheme } from 'styles/theme';
 
 import AddTodo from './addTodo';
 import { TodoType } from './addTodo/TodoType';
+import { ButtonWrapper, ToggleThemeButtonWrapper, Wrapper } from './todo.style';
 
 const TodoApp = () => {
-    const { colors } = useAppTheme();
+    const currentTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
+    console.log('🚀 ~ file: index.tsx ~ line 14 ~ TodoApp ~ currentTheme', currentTheme);
+    const handleChangeTheme = () => {
+        if (!currentTheme || currentTheme === 'light') {
+            localStorage.setItem('theme', 'dark');
+            toggleTheme('dark');
+        } else {
+            toggleTheme('light');
+            localStorage.setItem('theme', 'light');
+        }
+    };
     const [todos, setTodos] = useState<Array<TodoType>>([]);
     const [selectedTodos, setSelectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
@@ -112,18 +121,36 @@ const TodoApp = () => {
     const allTasks = useMemo(() => todos, [todos]);
     const inComplatedTasks = useMemo(() => allTasks.filter((todo) => !todo.status), [allTasks]);
     const complatedTasks = useMemo(() => allTasks.filter((todo) => todo.status), [allTasks]);
-    const Wrapper = styled.div`
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        padding: 4rem 16rem;
-        ${mobile(`
-        padding: 1rem ; 
-        `)};
-        background: ${colors['accent-0']};
-    `;
+    const tabClassName = css({
+        padding: '0.5rem',
+        textAlign: 'center',
+        borderBottom: `0.2rem solid ${theme?.colors?.['accent-0']}`,
+        width: '100%',
+    });
+    const activeTabClassName = css({
+        borderBottom: `0.2rem solid ${theme?.colors?.['red']}`,
+        width: '100%',
+        textAlign: 'center',
+        transition: 'all 0.1s ease-in',
+        padding: '0.5rem',
+    });
+    const tabsClassName = css({
+        width: ' 100%',
+        padding: ' 0.5rem 0rem',
+        transition: 'all 0.3s ease-in',
+        marginBottom: '0.5rem',
+
+        color: theme?.colors?.['accent-8'],
+        background: theme?.colors?.['accent-0'],
+    });
+
     return (
         <Wrapper>
+            <ToggleThemeButtonWrapper>
+                <button onClick={handleChangeTheme}>
+                    {currentTheme === 'dark' ? 'light' : 'dark'}
+                </button>
+            </ToggleThemeButtonWrapper>
             <AddTodo
                 onAdd={(todoItem) => {
                     setTodos((prev) => {
@@ -132,54 +159,32 @@ const TodoApp = () => {
                 }}
             />
             {!!selectedTodos.length && (
-                <div className="w-full flex justify-end py-4">
+                <ButtonWrapper>
                     <div className="flex">
-                        <button
-                            onClick={handleMultiDelete}
-                            className="px-3 py-2 rounded-md bg-red-600 text-white transition-all hover:ring-2 ring-red-600"
-                        >
+                        <button onClick={handleMultiDelete} className="deleteButton">
                             {t('Delete')}
                         </button>
 
                         <button
                             onClick={() => handleMultiChangeStatus(true)}
-                            className="bg-green-600 mx-2  rounded-md text-white hover:ring-2 transition-all duration-200 ring--600 shadow-md  py-2 px-3 text-sm"
+                            className="doneButton"
                         >
                             {t('Done')}
                         </button>
 
                         <button
                             onClick={() => handleMultiChangeStatus(false)}
-                            className="bg-blue-600 text-white   hover:ring-2 transition-all duration-200 ring-blue-600  rounded-md shadow-md px-3 py-2 text-sm"
+                            className="unDoneButton"
                         >
                             {t('Un done')}
                         </button>
                     </div>
-                </div>
+                </ButtonWrapper>
             )}
             <Tabs
-                tabsClassName={css({
-                    width: ' 100%',
-                    padding: ' 0.5rem 0rem',
-                    transition: 'all 0.3s ease-in',
-                    marginBottom: '0.5rem',
-                    color: colors['accent-8'],
-                    background: colors['accent-0'],
-                })}
-                tabClassName={css({
-                    padding: '0.5rem',
-                    textAlign: 'center',
-                    borderBottom: `0.2rem solid ${colors['accent-0']}`,
-                    width: '100%',
-                })}
-                activeTabClassName={css({
-                    borderBottom: `0.2rem solid ${colors['red']}`,
-                    width: '100%',
-                    textAlign: 'center',
-                    transition: 'all 0.1s ease-in',
-                    padding: '0.5rem',
-                })}
-                // activeTabClassName="border-b-4 text-center p-2 w-full border-red-600"
+                tabsClassName={tabsClassName as unknown as string}
+                tabClassName={tabClassName as unknown as string}
+                activeTabClassName={activeTabClassName as unknown as string}
                 tabNames={[t('All'), t('Dones'), t('Un dones')]}
             >
                 <Table<TodoType>

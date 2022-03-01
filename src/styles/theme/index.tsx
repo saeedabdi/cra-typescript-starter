@@ -31,3 +31,9 @@ export const theme: ThemeInterface.Theme = {
         'blue-dark': 'var(--blue-dark)',
     },
 };
+const currentTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
+const htmlEl = document.getElementsByTagName('html')[0];
+htmlEl.dataset.theme = currentTheme as string;
+export const toggleTheme = (theme: 'light' | 'dark') => {
+    htmlEl.dataset.theme = theme;
+};
