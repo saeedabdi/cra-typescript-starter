@@ -1,5 +1,5 @@
 import { createSerializer } from '@emotion/jest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import i18n from 'i18n';
 import { BrowserRouter } from 'react-router-dom';
 

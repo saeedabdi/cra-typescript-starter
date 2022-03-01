@@ -1,5 +1,5 @@
 import { createSerializer } from '@emotion/jest';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import i18n from 'i18n';
 
 import TableStyle, { TheadType } from '..';
