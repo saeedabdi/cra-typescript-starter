@@ -8,7 +8,7 @@ import {
     LoadingComponentsWrapper,
     Table as TableStyle,
     TableCell,
-    Td,
+    Th,
     Thead,
 } from './table.style';
 
@@ -114,11 +114,11 @@ function Table<T = any>({
                         </Thead>
                     )}
                     {columns.map((th) => (
-                        <Td data-title={th.title} key={th.key}>
+                        <Th data-title={th.title} key={th.key}>
                             <div style={th.style}>
                                 <span>{th.title}</span>
                             </div>
-                        </Td>
+                        </Th>
                     ))}
                 </tr>
             </thead>

@@ -1,3 +1,4 @@
+import { configure } from 'mobx';
 import { Provider } from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,6 +8,7 @@ import { RootStore } from 'store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+configure({ enforceActions: 'observed' });
 const rootStore = new RootStore();
 ReactDOM.render(
     <React.StrictMode>
