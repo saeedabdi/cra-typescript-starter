@@ -30,7 +30,7 @@ export const Thead = styled.th`
         }
     }
 `;
-export const Td = styled.th`
+export const Th = styled.th`
     padding: 1rem 0rem 0.5rem 0rem;
     white-space: nowrap;
     div {

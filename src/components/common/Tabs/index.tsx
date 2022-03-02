@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { Children, FC, ReactNode, useState } from 'react';
+import React, { Children, FunctionComponent, ReactNode, useState } from 'react';
 
 interface TabsProps {
     children?: ReactNode;
@@ -12,7 +12,7 @@ interface TabsProps {
     childrenParentClassName?: string;
 }
 
-const Tabs: FC<TabsProps> = ({
+const Tabs: FunctionComponent<TabsProps> = ({
     children,
     tabNames = [],
     activeTabClassName,
