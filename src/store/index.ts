@@ -1,19 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
+import { MobXProviderContext } from 'mobx-react';
+import { useContext } from 'react';
 
-import rootReducers from './reducers';
-import rootSaga from './sagas';
+import { RootStore } from '../store';
 
-const sagaMiddleware = createSagaMiddleware();
-const middleware = [sagaMiddleware];
+export const useRootStore = () => useContext(MobXProviderContext) as RootStore;
 
-const store = configureStore({
-    reducer: rootReducers,
-    middleware,
-});
-
-sagaMiddleware.run(rootSaga);
-
-export default store;
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export { AppStores } from './app.store';
+export { CategoriesStore } from './categories.store';
+export { RootStore } from './root.store';
+export { TodoStore } from './todo.store';
+export { RouterStore } from 'mobx-react-router';

@@ -1,15 +1,15 @@
+import { observer } from 'mobx-react';
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useRootStore } from 'store';
 
 import { TodoType } from '../addTodo/TodoType';
 import { ButtonWrapper, Form, InputWrapper } from './addTodo.styles';
 
-interface Props {
-    onAdd: (value: TodoType) => void;
-}
-
-const AddTodo: FC<Props> = ({ onAdd }) => {
+const AddTodo: FC = observer(() => {
+    const { todosStores } = useRootStore();
     const { t } = useTranslation();
+
     const [title, setTitle] = useState<string>('');
     const handleChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(value);
@@ -22,7 +22,7 @@ const AddTodo: FC<Props> = ({ onAdd }) => {
             status: false,
         };
         if (title) {
-            onAdd(todoITem);
+            todosStores.addTask(todoITem);
             setTitle('');
         }
     };
@@ -45,6 +45,6 @@ const AddTodo: FC<Props> = ({ onAdd }) => {
             </ButtonWrapper>
         </Form>
     );
-};
+});
 
 export default AddTodo;

@@ -5,6 +5,7 @@ import { routes } from './routes';
 
 const AppRoutes = () => {
     let key = 1;
+
     return (
         <Routes>
             {routes.map((route) => {

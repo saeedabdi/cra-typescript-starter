@@ -33,14 +33,15 @@ export const InputWrapper = styled.div`
     }
 `;
 
-export const ButtonWrapper = styled.button`
+export const ButtonWrapper = styled.div`
     display: flex;
     padding: 0rem 2rem;
     button {
+        border: none;
         border-radius: 0.5rem;
         background: ${colors['green']};
         color: ${colors['accent-0']};
-        padding: 0.75rem 0.75rem;
+        padding: 0.7rem 0.75rem;
         transition: all 0.3s ease-in;
         &:hover {
             transform: scale(1.05);

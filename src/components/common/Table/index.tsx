@@ -1,8 +1,9 @@
 import cn from 'classnames';
-import { CSSProperties, ReactElement, useEffect, useState } from 'react';
+import { CSSProperties, ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+    CheckBoxWrapper,
     EmptyComponentsWrapper,
     LoadingComponentsWrapper,
     Table as TableStyle,
@@ -18,10 +19,15 @@ export interface TheadType<T> {
     className?: string;
     render?: (param?: string, rowData?: T) => ReactElement | string;
 }
+export interface TableState<T> {
+    allSelected: boolean;
+    selectedCount: number;
+    selectedRows: T[];
+}
 export interface TableProps<T> {
     columns: TheadType<T>[];
     data: Array<any>;
-    onSelectedRowsChange?: (data: T[], rowData?: T) => void;
+    onSelectedRowsChange?: (data: TableState<T>) => void;
     selectableRows?: boolean;
     keyExtractor: (item: T) => string;
     className?: Record<string, string> | string;
@@ -40,87 +46,66 @@ function Table<T = any>({
     selectableRows,
 }: TableProps<T>): JSX.Element {
     const { t } = useTranslation();
-    const [tbody, setTbody] = useState(
-        selectableRows
-            ? data.map((item) => {
-                  return {
-                      checked: false,
-                      ...item,
-                  };
-              })
-            : data,
-    );
-
-    useEffect(() => {
-        setTbody(
-            selectableRows
-                ? data.map((item) => {
-                      return {
-                          checked: false,
-                          ...item,
-                      };
-                  })
-                : data,
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
+    const [tableStates, setTableState] = useState<TableState<T>>({
+        allSelected: false,
+        selectedCount: 0,
+        selectedRows: [],
+    });
     const handleCheckBoxChange = (
         event: React.ChangeEvent<HTMLInputElement>,
         rowData: T | any,
         index: number,
     ) => {
-        const editedBodyData = tbody;
         if (event.target.checked) {
-            editedBodyData[index]['checked'] = true;
-            setTbody(editedBodyData);
+            const selectedRows = [...tableStates.selectedRows, rowData];
+            const newTableStates = {
+                allSelected: data.length === selectedRows.length,
+                selectedCount: tableStates.selectedRows.length + 1,
+                selectedRows: selectedRows,
+            };
+            setTableState(newTableStates);
+            onSelectedRowsChange?.(newTableStates);
         } else {
-            editedBodyData[index]['checked'] = false;
-            setTbody(editedBodyData);
+            const newTableState = {
+                allSelected: false,
+                selectedCount: tableStates.selectedRows.length + 1,
+                selectedRows: tableStates.selectedRows.filter(
+                    (item) => keyExtractor(item) !== keyExtractor(rowData),
+                ),
+            };
+            setTableState(newTableState);
+            onSelectedRowsChange?.(newTableState);
         }
-
-        onSelectedRowsChange?.(
-            tbody
-                .map((item) => ({ ...item, checked: true }))
-                .map((data) => {
-                    delete data.checked;
-                    return { ...data };
-                }),
-
-            rowData,
-        );
     };
     const handleCheckedAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            setTbody((prev) => {
-                return prev.map((item) => ({ ...item, checked: true }));
-            });
-            onSelectedRowsChange?.(
-                tbody
-                    .map((item) => ({ ...item, checked: true }))
-                    .map((data) => {
-                        delete data.checked;
-                        return { ...data };
-                    }),
-            );
+            const newTableState = {
+                allSelected: true,
+                selectedCount: data.length + 1,
+                selectedRows: data,
+            };
+            setTableState(newTableState);
+            onSelectedRowsChange?.(newTableState);
         } else {
-            setTbody((prev) => {
-                return prev.map((item) => ({ ...item, checked: false }));
-            });
-            onSelectedRowsChange?.([]);
+            const newTableState = {
+                allSelected: false,
+                selectedCount: 0,
+                selectedRows: [],
+            };
+            onSelectedRowsChange?.(newTableState);
+            setTableState(newTableState);
         }
     };
-    const isCheckedAll = !tbody.find((item) => !item.checked) && tbody.length != 0;
 
     return (
         <TableStyle className={cn(className)}>
             <thead className={theadClassName}>
                 <tr>
                     {selectableRows && (
-                        <Thead key="checkBox" className="px-0  whitespace-nowrap pt-4 pb-2  ">
+                        <Thead key="checkBox">
                             <div>
                                 <input
-                                    checked={isCheckedAll}
+                                    checked={tableStates.allSelected && data.length !== 0}
                                     onChange={handleCheckedAllChange}
                                     type="checkbox"
                                     name="select-all-rows"
@@ -146,7 +131,7 @@ function Table<T = any>({
                             </LoadingComponentsWrapper>
                         </td>
                     </tr>
-                ) : tbody.length === 0 ? (
+                ) : data.length === 0 ? (
                     <tr>
                         <td colSpan={columns.length + 1}>
                             <EmptyComponentsWrapper className="w-full flex justify-center items-center h-64">
@@ -155,7 +140,7 @@ function Table<T = any>({
                         </td>
                     </tr>
                 ) : (
-                    tbody.map((tb, index) => {
+                    data.map((tb, index) => {
                         return (
                             <tr
                                 style={{
@@ -164,16 +149,22 @@ function Table<T = any>({
                                 key={keyExtractor(tb)}
                             >
                                 {selectableRows && (
-                                    <Thead>
+                                    <CheckBoxWrapper>
                                         <label>
                                             <input
                                                 type="checkbox"
                                                 onChange={(e) => handleCheckBoxChange(e, tb, index)}
-                                                checked={tb.checked}
+                                                checked={
+                                                    !!tableStates.selectedRows.find(
+                                                        (tableRow: T) =>
+                                                            keyExtractor(tableRow) ===
+                                                            keyExtractor(tb),
+                                                    )
+                                                }
                                                 name={`select-row-${index}`}
                                             />
                                         </label>
-                                    </Thead>
+                                    </CheckBoxWrapper>
                                 )}
                                 {columns.map((th) => {
                                     return (

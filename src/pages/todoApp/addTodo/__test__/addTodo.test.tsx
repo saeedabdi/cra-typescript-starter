@@ -5,7 +5,7 @@ import i18n from 'i18n';
 import AddTodo from '..';
 
 const mockedSetTodo = jest.fn();
-const MockAddTodo = () => <AddTodo onAdd={mockedSetTodo} />;
+const MockAddTodo = () => <AddTodo />;
 expect.addSnapshotSerializer(createSerializer());
 describe('Add todo  components ', () => {
     beforeAll(() => {

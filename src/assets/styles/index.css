@@ -1,7 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import url('./typography');
 :root {
     --primary: #fafafa;
     --primary-2: #ffffff;
@@ -37,9 +34,7 @@
     --accent-8: #162328;
     --accent-9: #1a1a1a;
     --accent-10: #000;
-
-    --font-sans: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue', 'Helvetica',
-        sans-serif;
+    font-family: Poppins;
 }
 
 [data-theme='dark'] {
