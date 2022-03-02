@@ -2,7 +2,6 @@ import { css } from '@emotion/css';
 import { Table, Tabs } from 'components/common';
 import { TableState, TheadType } from 'components/common/Table';
 import { observer } from 'mobx-react-lite';
-// import { observer } from 'mobx-react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRootStore } from 'store';
