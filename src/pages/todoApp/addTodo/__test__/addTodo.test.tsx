@@ -40,9 +40,8 @@ describe('Add todo  components ', () => {
                 value: 'Clean the house',
             },
         });
-        const buttonElement = screen.getByRole('button', { name: /Add/i });
-        fireEvent.click(buttonElement);
-        expect(mockedSetTodo).toBeCalled();
+
+        expect(inputElement.value).toBe('Clean the house');
     });
     it('should have empty input when add button is clicked', () => {
         render(<MockAddTodo />);

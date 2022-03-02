@@ -22,7 +22,7 @@ const AddTodo: FC = observer(() => {
             status: false,
         };
         if (title) {
-            todosStores.addTask(todoITem);
+            todosStores?.addTask(todoITem);
             setTitle('');
         }
     };

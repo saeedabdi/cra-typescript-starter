@@ -9,7 +9,7 @@ interface TabsProps {
     activeTabClassName?: string;
     tabClassName?: string;
     tabsClassName?: string;
-    childrenParentClassName?: string;
+    childrenWrpClassName?: string;
 }
 
 const Tabs: FunctionComponent<TabsProps> = ({
@@ -20,7 +20,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
     tabClassName,
     onChange,
     tabsClassName,
-    childrenParentClassName: childrenWrpClassName,
+    childrenWrpClassName,
 }) => {
     const [openTab, setOpenTab] = useState<number>(defaultIndex);
     return (

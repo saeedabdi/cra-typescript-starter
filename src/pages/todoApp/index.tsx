@@ -14,10 +14,7 @@ import { ButtonWrapper, ToggleThemeButtonWrapper, Wrapper } from './todo.style';
 
 const TodoApp = () => {
     const { colors } = useAppTheme();
-
     const { todosStores, appStores } = useRootStore();
-    console.log('🚀 ~ file: index.tsx ~ line 19 ~ TodoApp ~ todosStores', todosStores.todos);
-    console.log('🚀 ~ file: index.tsx ~ line 19 ~ TodoApp ~ appStores', appStores.ui.theme);
     const [selectedTodos, setSelectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
     const columns: TheadType<TodoType>[] = useMemo(() => {
@@ -84,9 +81,7 @@ const TodoApp = () => {
     }, []);
 
     const handleDelete = (rowData: TodoType) => {
-        if (window.confirm(t('Are you sure ?'))) {
-            todosStores.deleteTask(rowData.id);
-        }
+        todosStores.deleteTask(rowData.id);
     };
     const handleMultiDelete = () => {
         todosStores.multiDeleteTasks(selectedTodos.map((task) => task.id));
@@ -104,9 +99,9 @@ const TodoApp = () => {
         setSelectedTodos(data.selectedRows);
     }, []);
 
-    const allTasks = todosStores.todos;
-    const inComplatedTasks = todosStores.todos.filter((todo) => !todo.status);
-    const complatedTasks = todosStores.todos.filter((todo) => todo.status);
+    const allTasks = todosStores?.todos;
+    const inComplatedTasks = todosStores?.todos.filter((todo) => !todo.status);
+    const complatedTasks = todosStores?.todos.filter((todo) => todo.status);
     const tabClassName = css({
         padding: '0.5rem',
         textAlign: 'center',
@@ -196,7 +191,7 @@ const TodoApp = () => {
                         columns={columns}
                     />
                 </Tabs>
-                <pre>{JSON.stringify(todosStores.todos, null, 4)}</pre>
+                {/* <pre>{JSON.stringify(todosStores.todos, null, 4)}</pre> */}
             </div>
         </Wrapper>
     );

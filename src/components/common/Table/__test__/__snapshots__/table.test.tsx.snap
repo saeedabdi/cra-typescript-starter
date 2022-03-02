@@ -2,20 +2,20 @@
 
 exports[`Table component test should render and empty table correctly 1`] = `
 <table
-  class="relative w-full "
+  className=" css-twyho5"
 >
   <thead>
     <tr />
   </thead>
   <tbody
-    class=""
+    className=""
   >
     <tr>
       <td
-        colspan="1"
+        colSpan={1}
       >
         <div
-          class="w-full flex justify-center items-center h-64"
+          className="  css-v9ada3"
         >
           No data
         </div>
@@ -27,39 +27,44 @@ exports[`Table component test should render and empty table correctly 1`] = `
 
 exports[`Table component test should render the correctly when using render function 1`] = `
 <table
-  class="relative w-full "
+  className=" css-twyho5"
 >
   <thead>
     <tr>
-      <td
-        class="px-0  whitespace-nowrap pt-4 pb-2  "
+      <th
+        className="css-phr1e7"
         data-title="name"
       >
-        <div
-          class="px-2 border-b-2  border-orange"
-        >
+        <div>
           <span>
             name
           </span>
         </div>
-      </td>
+      </th>
     </tr>
   </thead>
   <tbody
-    class=""
+    className=""
   >
     <tr
-      style="height: 1px;"
+      style={
+        Object {
+          "height": 1,
+        }
+      }
     >
       <td
-        class="p-0 h-inherit text-primary"
+        className="css-1fp9v71"
         data-title="name"
+        style={
+          Object {
+            "height": "",
+          }
+        }
       >
-        <div
-          class="py-1 h-full"
-        >
+        <div>
           <div
-            class=""
+            className=""
           >
             name
           </div>
@@ -72,22 +77,20 @@ exports[`Table component test should render the correctly when using render func
 
 exports[`data prop changes should update state if the data prop changes 1`] = `
 <table
-  class="relative w-full "
+  class=" css-twyho5"
 >
   <thead>
     <tr>
-      <td
-        class="px-0  whitespace-nowrap pt-4 pb-2  "
+      <th
+        class="css-phr1e7"
         data-title="test"
       >
-        <div
-          class="px-2 border-b-2  border-orange"
-        >
+        <div>
           <span>
             test
           </span>
         </div>
-      </td>
+      </th>
     </tr>
   </thead>
   <tbody
@@ -97,17 +100,14 @@ exports[`data prop changes should update state if the data prop changes 1`] = `
       style="height: 1px;"
     >
       <td
-        class="p-0 h-inherit text-primary"
+        class="css-1fp9v71"
         data-title="test"
       >
-        <div
-          class="py-1 h-full"
-        >
+        <div>
           <div
             class=""
           >
             Someone else
-            ,
           </div>
         </div>
       </td>

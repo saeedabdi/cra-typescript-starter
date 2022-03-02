@@ -60,7 +60,7 @@ function Table<T = any>({
             const selectedRows = [...tableStates.selectedRows, rowData];
             const newTableStates = {
                 allSelected: data.length === selectedRows.length,
-                selectedCount: tableStates.selectedRows.length + 1,
+                selectedCount: selectedRows.length + 1,
                 selectedRows: selectedRows,
             };
             setTableState(newTableStates);
@@ -126,7 +126,7 @@ function Table<T = any>({
                 {isLoading ? (
                     <tr>
                         <td colSpan={columns.length + 1}>
-                            <LoadingComponentsWrapper className="w-full flex justify-center items-center h-64">
+                            <LoadingComponentsWrapper className=" ">
                                 <div>loading...</div>
                             </LoadingComponentsWrapper>
                         </td>
@@ -134,7 +134,7 @@ function Table<T = any>({
                 ) : data.length === 0 ? (
                     <tr>
                         <td colSpan={columns.length + 1}>
-                            <EmptyComponentsWrapper className="w-full flex justify-center items-center h-64">
+                            <EmptyComponentsWrapper className=" ">
                                 {t('No data')}
                             </EmptyComponentsWrapper>
                         </td>
