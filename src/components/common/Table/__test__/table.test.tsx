@@ -3,6 +3,7 @@ import i18n from 'i18n';
 import renderer from 'react-test-renderer';
 
 import Table, { TableState, TheadType } from '../index';
+
 interface TestType {
     id: number;
     some: {
