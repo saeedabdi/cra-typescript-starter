@@ -21,6 +21,7 @@ export const InputWrapper = styled.div`
     input {
         width: 100%;
         border-radius: 0.475rem;
+        color: ${colors['accent-7']};
         background: ${colors['accent-0']};
         border: 0.1rem solid ${colors['accent-3']};
         &:focus {
