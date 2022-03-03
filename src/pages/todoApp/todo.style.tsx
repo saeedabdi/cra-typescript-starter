@@ -7,12 +7,12 @@ export const Wrapper = styled.div`
     display: flex;
     .container {
         padding: 4rem 16rem;
+        ${mobile(`
+        padding: 1rem ; 
+        `)};
     }
     flex-direction: column;
     min-height: 100vh;
-    ${mobile(`
-        padding: 1rem ; 
-        `)};
     background: ${theme?.colors?.['accent-0']};
 `;
 export const ButtonWrapper = styled.div`
