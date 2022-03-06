@@ -21,6 +21,7 @@ export class RootStore {
         return {
             todosStores: this.todosStores,
             appStores: this.appStores,
+            history: this.history,
         };
     }
 }
