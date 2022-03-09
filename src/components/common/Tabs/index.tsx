@@ -7,6 +7,7 @@ interface TabsProps {
     defaultIndex?: number;
     onChange?: (activeIndex: number) => void;
     activeTabClassName?: string;
+
     tabClassName?: string;
     tabsClassName?: string;
     childrenWrpClassName?: string;
@@ -29,7 +30,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
                 {tabNames.map((name, key) => {
                     return (
                         <div
-                            key={key}
+                            key={name}
                             onClick={() => {
                                 setOpenTab(key);
                                 onChange?.(key);
