@@ -1,31 +1,65 @@
-export interface Theme {
+export interface ThemeInterface {
     colors: {
-        primary: string;
-        'primary-2': string;
-        secondary: string;
-        'secondary-2': string;
-        'accent-0': string;
-        'accent-1': string;
-        'accent-1-5': string;
-        'accent-2': string;
-        'accent-3': string;
-        'accent-4': string;
-        'accent-5': string;
-        'accent-6': string;
-        'accent-7': string;
-        'accent-8': string;
-        'accent-9': string;
-        green: string;
-        'green-dark': string;
-        red: string;
-        'red-2': string;
-        'red-dark': string;
-        orange: string;
-        'orange-dark': string;
-        'red-light': string;
-        yellow: string;
-        'yellow-dark': string;
-        blue: string;
-        'blue-dark': string;
+        dark: {
+            primary: string;
+            'primary2': string;
+            secondary: string;
+            'secondary2': string;
+            'accent0': string;
+            'accent1': string;
+            'accent1_5': string;
+            'accent2': string;
+            'accent3': string;
+            'accent4': string;
+            'accent5': string;
+            'accent6': string;
+            'accent7': string;
+            'accent8': string;
+            'accent9': string;
+            green: string;
+            'greenDark': string;
+            red: string;
+            'red2': string;
+            'redDark': string;
+            orange: string;
+            'orangeDark': string;
+            'redLight': string;
+            yellow: string;
+            'yellowDark': string;
+            blue: string;
+            'blueDark': string;
+        };
+        light: {
+            primary: string;
+            'primary2': string;
+            secondary: string;
+            'secondary2': string;
+            'accent0': string;
+            'accent1': string;
+            'accent1_5': string;
+            'accent2': string;
+            'accent3': string;
+            'accent4': string;
+            'accent5': string;
+            'accent6': string;
+            'accent7': string;
+            'accent8': string;
+            'accent9': string;
+            green: string;
+            'greenDark': string;
+            red: string;
+            'red2': string;
+            'redDark': string;
+            orange: string;
+            'orangeDark': string;
+            'redLight': string;
+            yellow: string;
+            'yellowDark': string;
+            blue: string;
+            'blueDark': string;
+        };
     };
+}
+export interface EmotionThemeInterface {
+    colors: ThemeInterface['colors']['light'];
 }

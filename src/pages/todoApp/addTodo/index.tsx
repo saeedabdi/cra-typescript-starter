@@ -1,20 +1,19 @@
 import { observer } from 'mobx-react';
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRootStore } from 'store';
 
 import { TodoType } from '../addTodo/TodoType';
 import { ButtonWrapper, Form, InputWrapper } from './addTodo.styles';
 
-const AddTodo: FC = observer(() => {
-    const { todosStores } = useRootStore();
+function AddTodo() {
+    const { todoStores } = useRootStore();
     const { t } = useTranslation();
-
     const [title, setTitle] = useState<string>('');
-    const handleChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    function handleChange({ target: { value } }: React.ChangeEvent<HTMLInputElement>) {
         setTitle(value);
-    };
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    }
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const todoITem: TodoType = {
             title,
@@ -22,10 +21,10 @@ const AddTodo: FC = observer(() => {
             status: false,
         };
         if (title) {
-            todosStores?.addTask(todoITem);
+            todoStores.addTask(todoITem);
             setTitle('');
         }
-    };
+    }
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -45,6 +44,6 @@ const AddTodo: FC = observer(() => {
             </ButtonWrapper>
         </Form>
     );
-});
+}
 
-export default AddTodo;
+export default observer(AddTodo);

@@ -1,10 +1,9 @@
 import { useTheme } from '@emotion/react';
 
-import { Theme } from './Theme';
+import { EmotionThemeInterface } from './Theme';
 
 const useAppTheme = () => {
-    const theme = useTheme() as Theme;
-
+    const theme = useTheme() as EmotionThemeInterface;
     return theme;
 };
 

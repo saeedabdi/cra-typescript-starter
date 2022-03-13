@@ -1,36 +1,42 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { TodoType } from 'pages/todoApp/addTodo/TodoType';
 
 export class TodoStore {
     public todos: Array<TodoType>;
     constructor() {
-        makeAutoObservable(this);
+        makeObservable(this, {
+            todos: observable,
+            addTask: action,
+            deleteTask: action,
+            changeMultiStatus: action,
+            changeStatus: action,
+            multiDeleteTasks: action,
+        });
+
         this.todos = [];
     }
 
-    public addTask(task: TodoType) {
+    public addTask(task: TodoType): void {
         this.todos.push(task);
     }
 
-    public deleteTask(id: string) {
+    public deleteTask(id: string): void {
         this.todos = this.todos.filter((task) => task.id !== id);
     }
-    public changeStatue(id: string) {
+    public changeStatus(id: string): void {
         const taskIndex = this.todos.findIndex((task) => task.id === id);
         this.todos[taskIndex].status = !this.todos[taskIndex].status;
     }
-    public changeMultiStatue(ids: string[], status: boolean) {
-        ids.map((id) => {
-            this.todos.map((task) => {
+    public changeMultiStatus({ ids, status }: { ids: string[]; status: boolean }): void {
+        ids.forEach((id) => {
+            this.todos.forEach((task) => {
                 if (task.id === id) {
                     task.status = status;
-                    return task;
                 }
-                return task;
             });
         });
     }
-    public multiDeleteTasks(ids: string[]) {
+    public multiDeleteTasks(ids: string[]): void {
         ids.forEach((id) => {
             this.todos = this.todos.filter((task) => {
                 return task.id !== id;

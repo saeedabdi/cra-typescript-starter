@@ -8,7 +8,9 @@ import { RootStore } from 'store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-configure({ enforceActions: 'observed' });
+configure({
+    enforceActions: 'observed',
+});
 const rootStore = new RootStore();
 export const { history } = rootStore.getProviderStores();
 ReactDOM.render(

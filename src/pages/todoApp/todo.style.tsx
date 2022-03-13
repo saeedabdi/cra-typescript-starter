@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { theme } from 'styles/theme';
+import { EmotionThemeInterface } from 'styles/theme/Theme';
 import { mobile } from 'utils/media';
 
 export const Wrapper = styled.div`
@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
     }
     flex-direction: column;
     min-height: 100vh;
-    background: ${theme?.colors?.['accent-0']};
+    background: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
 `;
 export const ButtonWrapper = styled.div`
     display: flex;
@@ -34,16 +34,16 @@ export const ButtonWrapper = styled.div`
         }
         display: flex;
         .deleteButton {
-            background: ${theme?.colors?.red};
-            color: ${theme?.colors?.['accent-0']};
+            background: ${({ theme }) => (theme as EmotionThemeInterface).colors.red};
+            color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
         }
         .doneButton {
-            background: ${theme?.colors?.green};
-            color: ${theme?.colors?.['accent-0']};
+            background: ${({ theme }) => (theme as EmotionThemeInterface).colors.green};
+            color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
         }
         .unDoneButton {
-            background: ${theme?.colors?.blue};
-            color: ${theme?.colors?.['accent-0']};
+            background: ${({ theme }) => (theme as EmotionThemeInterface).colors.blue};
+            color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
         }
     }
 `;
@@ -54,8 +54,8 @@ export const ToggleThemeButtonWrapper = styled.div`
     button {
         border: none;
         padding: 0.5rem 1rem;
-        color: ${theme.colors['accent-0']};
-        background: ${theme.colors['accent-8']};
+        color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
+        background: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent8};
         border-radius: 0.25rem;
         transition: all 0.3s ease-in;
         padding: 0.5rem 1rem;

@@ -1,8 +1,9 @@
 import { css } from '@emotion/css';
 import { Table, Tabs } from 'components/common';
 import { TableState, TheadType } from 'components/common/Table';
+import { ThemeContext } from 'context/themeContext';
 import { observer } from 'mobx-react-lite';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRootStore } from 'store';
 import useAppTheme from 'styles/theme/useAppTheme';
@@ -11,9 +12,10 @@ import AddTodo from './addTodo';
 import { TodoType } from './addTodo/TodoType';
 import { ButtonWrapper, ToggleThemeButtonWrapper, Wrapper } from './todo.style';
 
-const TodoApp = () => {
+function TodoApp() {
     const { colors } = useAppTheme();
-    const { todosStores, appStores } = useRootStore();
+    const { toggleTheme, theme } = useContext(ThemeContext);
+    const { todoStores: todoStores } = useRootStore();
     const [selectedTodos, setSelectedTodos] = useState<Array<TodoType>>([]);
     const { t } = useTranslation();
     const columns: TheadType<TodoType>[] = useMemo(() => {
@@ -53,18 +55,14 @@ const TodoApp = () => {
                                 </button>
                                 {!rowData?.status ? (
                                     <button
-                                        onClick={() =>
-                                            handleChangeStatus(true, rowData as TodoType)
-                                        }
+                                        onClick={() => handleChangeStatus(rowData as TodoType)}
                                         className="doneButton"
                                     >
                                         {t('Done')}
                                     </button>
                                 ) : (
                                     <button
-                                        onClick={() =>
-                                            handleChangeStatus(false, rowData as TodoType)
-                                        }
+                                        onClick={() => handleChangeStatus(rowData as TodoType)}
                                         className="unDoneButton"
                                     >
                                         {t('Un done')}
@@ -79,36 +77,33 @@ const TodoApp = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleDelete = (rowData: TodoType) => {
-        todosStores.deleteTask(rowData.id);
-    };
-    const handleMultiDelete = () => {
-        todosStores.multiDeleteTasks(selectedTodos.map((task) => task.id));
-    };
-    const handleChangeStatus = (status: boolean, rowData: TodoType) => {
-        todosStores.changeStatue(rowData.id);
-    };
-    const handleMultiChangeStatus = (status: boolean) => {
-        todosStores.changeMultiStatue(
-            selectedTodos.map((task) => task.id),
-            status,
-        );
-    };
+    function handleDelete(rowData: TodoType) {
+        todoStores.deleteTask(rowData.id);
+    }
+    function handleMultiDelete() {
+        todoStores.multiDeleteTasks(selectedTodos.map((task) => task.id));
+    }
+    function handleChangeStatus(rowData: TodoType) {
+        todoStores.changeStatus(rowData.id);
+    }
+    function handleMultiChangeStatus(status: boolean) {
+        todoStores.changeMultiStatus({ ids: selectedTodos.map((task) => task.id), status });
+    }
     const handleCheckbox = useCallback((data: TableState<TodoType>) => {
         setSelectedTodos(data.selectedRows);
     }, []);
 
-    const allTasks = todosStores?.todos;
-    const inComplatedTasks = todosStores?.todos.filter((todo) => !todo.status);
-    const complatedTasks = todosStores?.todos.filter((todo) => todo.status);
+    const allTasks = todoStores?.todos;
+    const inCompletedTasks = todoStores?.todos.filter((todo) => !todo.status);
+    const completedTasks = todoStores?.todos.filter((todo) => todo.status);
     const tabClassName = css({
         padding: '0.5rem',
         textAlign: 'center',
-        borderBottom: `0.2rem solid ${colors?.['accent-0']}`,
+        borderBottom: `0.2rem solid transparent `,
         width: '100%',
     });
     const activeTabClassName = css({
-        borderBottom: `0.2rem solid ${colors?.['red']}`,
+        borderBottom: `0.2rem solid ${colors.red}`,
         width: '100%',
         textAlign: 'center',
         transition: 'all 0.1s ease-in',
@@ -116,27 +111,20 @@ const TodoApp = () => {
     });
     const tabsClassName = css({
         width: ' 100%',
+        cursor: 'pointer',
         padding: ' 0.5rem 0rem',
         transition: 'all 0.3s ease-in',
         marginBottom: '0.5rem',
         display: 'flex',
-        color: colors?.['accent-8'],
-        background: colors?.['accent-0'],
+        color: colors.accent8,
+        background: colors.accent0,
     });
-
+    const tabNames = useMemo(() => [t('All'), t('Completed tasks'), t('In completed tasks')], [t]);
     return (
         <Wrapper>
             <div className="container">
                 <ToggleThemeButtonWrapper>
-                    <button
-                        onClick={() =>
-                            appStores.toggleTheme(
-                                appStores?.ui?.theme === 'dark' ? 'light' : 'dark',
-                            )
-                        }
-                    >
-                        {appStores.ui.theme === 'dark' ? 'light' : 'dark'}
-                    </button>
+                    <button onClick={toggleTheme}>{theme === 'dark' ? 'light' : 'dark'}</button>
                 </ToggleThemeButtonWrapper>
                 <AddTodo />
                 {!!selectedTodos.length && (
@@ -166,7 +154,7 @@ const TodoApp = () => {
                     tabsClassName={tabsClassName as unknown as string}
                     tabClassName={tabClassName as unknown as string}
                     activeTabClassName={activeTabClassName as unknown as string}
-                    tabNames={[t('All'), t('Dones'), t('Un dones')]}
+                    tabNames={tabNames}
                 >
                     <Table<TodoType>
                         selectableRows
@@ -178,14 +166,14 @@ const TodoApp = () => {
                     <Table<TodoType>
                         keyExtractor={(item) => item.id}
                         selectableRows
-                        data={complatedTasks}
+                        data={completedTasks}
                         onSelectedRowsChange={handleCheckbox}
                         columns={columns}
                     />
                     <Table<TodoType>
                         keyExtractor={(item) => item.id}
                         selectableRows
-                        data={inComplatedTasks}
+                        data={inCompletedTasks}
                         onSelectedRowsChange={handleCheckbox}
                         columns={columns}
                     />
@@ -194,6 +182,6 @@ const TodoApp = () => {
             </div>
         </Wrapper>
     );
-};
+}
 
 export default observer(TodoApp);
