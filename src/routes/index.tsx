@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { routes } from './routes';
@@ -18,4 +18,4 @@ function AppRoutes() {
     );
 }
 
-export default AppRoutes;
+export default memo(AppRoutes);
