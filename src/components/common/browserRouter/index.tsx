@@ -1,12 +1,12 @@
 import { History } from 'history';
-import React from 'react';
+import React, { memo } from 'react';
 import { BrowserRouterProps as NativeBrowserRouterProps, Router } from 'react-router-dom';
 
 export interface BrowserRouterProps extends Omit<NativeBrowserRouterProps, 'window'> {
     history: History;
 }
 
-export const BrowserRouter: React.FC<BrowserRouterProps> = React.memo((props) => {
+function BrowserRouter(props: BrowserRouterProps) {
     const { history, ...restProps } = props;
     const [state, setState] = React.useState({
         action: history.action,
@@ -23,4 +23,5 @@ export const BrowserRouter: React.FC<BrowserRouterProps> = React.memo((props) =>
             navigator={history}
         />
     );
-});
+}
+export default memo(BrowserRouter);

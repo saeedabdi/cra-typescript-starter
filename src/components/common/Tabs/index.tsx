@@ -25,8 +25,8 @@ const Tabs: FunctionComponent<TabsProps> = ({
 }) => {
     const [openTab, setOpenTab] = useState<number>(defaultIndex);
     return (
-        <div className=" w-full">
-            <div className={cn('flex', tabsClassName)}>
+        <div>
+            <div className={cn(tabsClassName)}>
                 {tabNames.map((name, key) => {
                     return (
                         <div
@@ -35,10 +35,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
                                 setOpenTab(key);
                                 onChange?.(key);
                             }}
-                            className={cn(
-                                key === openTab ? activeTabClassName : tabClassName,
-                                'cursor-pointer ',
-                            )}
+                            className={cn(key === openTab ? activeTabClassName : tabClassName)}
                         >
                             {name}
                         </div>
@@ -46,7 +43,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
                 })}
             </div>
 
-            <div className={cn('w-full', childrenWrpClassName)}>
+            <div className={cn(childrenWrpClassName)}>
                 {Children.map(children, (Child, key) => {
                     if (openTab === key) return <>{Child}</>;
                 })}
