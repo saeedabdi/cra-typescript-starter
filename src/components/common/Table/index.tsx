@@ -156,7 +156,7 @@ function Table<T = any>({
                                                 onChange={(e) => handleCheckBoxChange(e, tb, index)}
                                                 checked={
                                                     !!tableStates.selectedRows.find(
-                                                        (tableRow: T) =>
+                                                        (tableRow) =>
                                                             keyExtractor(tableRow) ===
                                                             keyExtractor(tb),
                                                     )
