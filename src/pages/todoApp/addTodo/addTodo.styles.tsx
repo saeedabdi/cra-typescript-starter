@@ -14,7 +14,7 @@ export const InputWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent8};
+    color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent8};
     label {
         padding-bottom: 1rem;
         font-weight: bold;
@@ -22,11 +22,11 @@ export const InputWrapper = styled.div`
     input {
         width: 100%;
         border-radius: 0.475rem;
-        color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent7};
-        background: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
-        border: 0.1rem solid ${({ theme }) => (theme as EmotionThemeInterface).colors.accent3};
+        color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent7};
+        background: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent0};
+        border: 0.1rem solid ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent3};
         &:focus {
-            border: 0.25rem solid ${({ theme }) => (theme as EmotionThemeInterface).colors.blue};
+            border: 0.25rem solid ${({ theme }) => (theme as EmotionThemeInterface).colors?.blue};
         }
         &:focus {
             outline: none;
@@ -41,8 +41,8 @@ export const ButtonWrapper = styled.div`
     button {
         border: none;
         border-radius: 0.5rem;
-        background: ${({ theme }) => (theme as EmotionThemeInterface).colors.green};
-        color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent0};
+        background: ${({ theme }) => (theme as EmotionThemeInterface).colors?.green};
+        color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent0};
         padding: 0.7rem 0.75rem;
         transition: all 0.3s ease-in;
         &:hover {

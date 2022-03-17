@@ -21,7 +21,7 @@ function AddTodo() {
             status: false,
         };
         if (title) {
-            todoStores.addTask(todoITem);
+            todoStores?.addTask(todoITem);
             setTitle('');
         }
     }

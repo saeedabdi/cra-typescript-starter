@@ -55,6 +55,7 @@ describe('Add todo  components ', () => {
         });
         const buttonElement = screen.getByRole('button', { name: /Add/i });
         fireEvent.click(buttonElement);
+
         expect(inputElement.value).toBe('');
     });
 });

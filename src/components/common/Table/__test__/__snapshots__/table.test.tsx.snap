@@ -15,7 +15,7 @@ exports[`Table component test should render and empty table correctly 1`] = `
         colSpan={1}
       >
         <div
-          className="  css-v9ada3"
+          className="  css-mr32rj"
         >
           No data
         </div>
@@ -32,7 +32,7 @@ exports[`Table component test should render the correctly when using render func
   <thead>
     <tr>
       <th
-        className="css-phr1e7"
+        className="css-y6r092"
         data-title="name"
       >
         <div>
@@ -54,7 +54,7 @@ exports[`Table component test should render the correctly when using render func
       }
     >
       <td
-        className="css-1fp9v71"
+        className="css-do3z2j"
         data-title="name"
         style={
           Object {
@@ -82,7 +82,7 @@ exports[`data prop changes should update state if the data prop changes 1`] = `
   <thead>
     <tr>
       <th
-        class="css-phr1e7"
+        class="css-y6r092"
         data-title="test"
       >
         <div>
@@ -100,7 +100,7 @@ exports[`data prop changes should update state if the data prop changes 1`] = `
       style="height: 1px;"
     >
       <td
-        class="css-1fp9v71"
+        class="css-do3z2j"
         data-title="test"
       >
         <div>

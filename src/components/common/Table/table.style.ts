@@ -34,14 +34,14 @@ export const Th = styled.th`
     padding: 1rem 0rem 0.5rem 0rem;
     white-space: nowrap;
     div {
-        color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent8};
+        color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent8};
         padding: 0rem 0.5rem;
     }
 `;
 export const LoadingComponentsWrapper = styled.div`
     width: 100%;
     height: 16rem;
-    color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent8};
+    color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent8};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,7 +49,7 @@ export const LoadingComponentsWrapper = styled.div`
 export const EmptyComponentsWrapper = styled.div`
     width: 100%;
     height: 16rem;
-    color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent8};
+    color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent8};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,7 +57,7 @@ export const EmptyComponentsWrapper = styled.div`
 export const TableCell = styled.td`
     height: inherit;
     padding: 0;
-    color: ${({ theme }) => (theme as EmotionThemeInterface).colors.accent8};
+    color: ${({ theme }) => (theme as EmotionThemeInterface).colors?.accent8};
     div {
         div {
             padding: 0.25rem 0rem;
